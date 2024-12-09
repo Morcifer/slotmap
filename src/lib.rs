@@ -199,6 +199,7 @@
 //! [`BTreeMap`]: std::collections::BTreeMap
 //! [`HashMap`]: std::collections::HashMap
 //! [`serde`]: https://github.com/serde-rs/serde
+//! [`bitcode`]: https://github.com/SoftbearStudios/bitcode
 //! [`slab`]: https://crates.io/crates/slab
 //! [`stable-vec`]: https://crates.io/crates/stable-vec
 //! [`no_std`]: https://doc.rust-lang.org/1.7.0/book/no-stdlib.html
@@ -225,6 +226,9 @@ pub(crate) mod util;
 use core::fmt::{self, Debug, Formatter};
 use core::hash::{Hash, Hasher};
 use core::num::NonZeroU32;
+
+#[cfg(feature = "bitcode")]
+pub use bitcode::{Encode, Decode};
 
 #[doc(inline)]
 pub use crate::basic::SlotMap;
@@ -257,6 +261,7 @@ impl<T> Slottable for T {}
 /// [`BTreeMap`](std::collections::BTreeMap), but the order of keys is
 /// unspecified.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "bitcode", derive(Encode, Decode))]
 pub struct KeyData {
     idx: u32,
     version: NonZeroU32,

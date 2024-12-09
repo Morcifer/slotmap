@@ -14,9 +14,11 @@ categories = ["data-structures", "memory-management", "caching"]
 default = ["std"]
 unstable = []
 std = []
+bitcode = []
 
 [dependencies]
 serde = { version = "1.0", optional = true, default-features = false, features = ["derive", "alloc"] }
+bitcode = { version = "0.6.3", features = ["derive"] }
 
 [dev-dependencies]
 fxhash = "0.2.1"

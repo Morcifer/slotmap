@@ -13,11 +13,16 @@ use core::num::NonZeroU32;
 use core::ops::{Index, IndexMut};
 
 use super::{Key, KeyData};
+
+#[cfg(feature = "bitcode")]
+pub use bitcode::{Encode, Decode};
+
 use crate::util::is_older_version;
 
 // This representation works because we don't have to store the versions
 // of removed elements.
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "bitcode", derive(Encode, Decode))]
 enum Slot<T> {
     Occupied { value: T, version: NonZeroU32 },
 
@@ -119,6 +124,7 @@ impl<T> Slot<T> {
 /// ammo[alice] = 0;
 /// ```
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "bitcode", derive(Encode, Decode))]
 pub struct SecondaryMap<K: Key, V> {
     slots: Vec<Slot<V>>,
     num_elems: usize,
